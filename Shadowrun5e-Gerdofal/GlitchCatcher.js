@@ -1,21 +1,19 @@
 on('chat:message', function (msg) {
     
     if((msg.type == 'general' && (msg.rolltemplate.indexOf('sr1') >= 0)) || msg.type == 'rollresult') { //todo JSON.parse(msg.content) to get the rollresult obj
-        
+        if(msg.content.indexOf('Initiative') >= 0) {
+            return; //not a pooled roll, don't report glitches
+        }
         if(msg.type == 'rollresult') {
             var rollResult = JSON.parse(msg.content);
-            log(rollResult);
             var poolSize = rollResult.rolls[0].dice;
             var dice = rollResult.rolls[0].results;
         } else {
-            log(msg.inlinerolls);
             var poolSize = msg.inlinerolls[1].results.rolls[0].dice;
             var dice = msg.inlinerolls[1].results.rolls[0].results;
         }
         
-        if(msg.content.indexOf('Initiative') >= 0) {
-            return; //not a pooled roll, don't report glitches
-        }
+        
         var oneCount = 0;
         var hitCount = 0;
         var i = 0;
