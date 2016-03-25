@@ -29,3 +29,22 @@ on('chat:message', function(msg) {
         Campaign().set("turnorder", JSON.stringify(turnorder));
     }
 });
+
+on('chat:message', function(msg) {
+    if(msg.content == '!nextpass') {
+
+        if(Campaign().get("turnorder") == "") {
+            turnorder = []; 
+        } else {
+            turnorder = JSON.parse(Campaign().get("turnorder"));
+        }
+
+        nextPassOrder = [];
+        //foreach obj in turnorder
+        //if pr < 10 remove from []
+        //otherwise pr = pr-10
+        //sort array desc
+        Campaign().set("turnorder", JSON.stringify(nextPassOrder));   
+    }
+
+});
